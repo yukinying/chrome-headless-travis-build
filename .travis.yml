@@ -17,5 +17,12 @@ before_install:
 - echo 'git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git; cd depot_tools; git pull' | ssh -T -F ssh_config buildbot@chrome-build1
 
 install:
+# https://chromium.googlesource.com/chromium/src/+/master/docs/linux_build_instructions.md#Install
 # Get the sources
-- echo 'mkdir -p ~/chromium; cd ~/chromium; fetch --nohooks chromium' | ssh -T -F ssh_config buildbot@chrome-build1
+- echo 'mkdir -p ~/chromium; cd ~/chromium; fetch --no-history chromium' | ssh -T -F ssh_config buildbot@chrome-build1
+# Install build dependencies
+- echo 'cd ~/chromium/src; sudo ./build/install-build-deps.sh --no-prompt' | ssh -T -F ssh_config buildbot@chrome-build1
+# Reset, checkout master
+- echo 'cd ~/chromium/src; git reset --hard; git checkout master; git reset --hard; git rebase-update; gclient sync --with_branch_heads' | ssh -T -F ssh_config buildbot@chrome-build1
+# Get tags
+- echo 'cd ~/chromium/src; git fetch' | ssh -T -F ssh_config buildbot@chrome-build1
