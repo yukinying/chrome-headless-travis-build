@@ -15,7 +15,7 @@ before_install:
 # TODO - set path
 #    export PATH="$PATH:/path/to/depot_tools"
 # depot_tools
-- ssh -F ssh_config buildbot@chrome-build1 'git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git'
+- ssh -F ssh_config buildbot@chrome-build1 'git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git; cd depot_tools; git pull'
 
 install:
 # Get the sources
