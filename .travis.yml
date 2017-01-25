@@ -5,7 +5,18 @@ before_install:
   -in ssh_config.tar.enc -out ssh_config.tar -d
 - tar xvf ssh_config.tar
 - rm ssh_config.tar
+- ssh -F ssh_config chrome-build1 sudo apt-get -y update
+# install python
+- ssh -F ssh_config chrome-build1 sudo apt-get -y install git python
+# install mscorefont
+- ssh -F ssh_config chrome-build1 "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"
+- ssh -F ssh_config chrome-build1 sudo apt-get install -y ttf-mscorefonts-installer
+# TODO - install docker
+# TODO - set path
+#    export PATH="$PATH:/path/to/depot_tools"
+# depot_tools
+- ssh -F ssh_config buildbot@chrome-build1 'git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git'
 
 install:
-- ssh -F ssh_config chrome-build1 sudo apt-get -y update
-- ssh -F ssh_config chrome-build1 sudo apt-get -y install git python
+# Get the sources
+- ssh -F ssh_config buildbot@chrome-build1 'mkdir ~/chromium && cd ~/chromium; fetch --nohooks chromium'
