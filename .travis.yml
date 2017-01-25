@@ -19,4 +19,4 @@ before_install:
 
 install:
 # Get the sources
-- ssh -F ssh_config buildbot@chrome-build1 'mkdir ~/chromium && cd ~/chromium; fetch --nohooks chromium'
+- ssh -F ssh_config buildbot@chrome-build1 'mkdir -p ~/chromium && cd ~/chromium; fetch --nohooks chromium'
