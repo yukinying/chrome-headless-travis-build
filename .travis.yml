@@ -1,28 +1,36 @@
 language: bash
+
+env:
+  # - N='apt-get update'      S=1 C=ssh_config H=buildbot@chrome-build1
+  # - N='install python'      S=2 C=ssh_config H=buildbot@chrome-build1
+  # - N='install font'        S=3 C=ssh_config H=buildbot@chrome-build1
+  # - N='install depot_tools' S=4 C=ssh_config H=buildbot@chrome-build1
+  # - N='fetch chromium'      S=5 C=ssh_config H=buildbot@chrome-build1 T=travis_wait W=100
+  # - N='install build deps'  S=6 C=ssh_config H=buildbot@chrome-build1
+  # - N='gclient sync'        S=7 C=ssh_config H=buildbot@chrome-build1 T=travis_wait W=100
+  - N='git fetch'           S=8 C=ssh_config H=buildbot@chrome-build1
+  - N='git checkout TARGET' S=9 C=ssh_config H=buildbot@chrome-build1
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=1
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=2
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=3
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=4
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=5
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=6
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=7
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=8
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=9
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=10
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=11
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=12
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=13
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=14
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=15
+  - N='docker'              S=11 C=ssh_config H=buildbot@chrome-build1
 before_install:
 - umask 0077
 - openssl aes-256-cbc -K $encrypted_d16b55db407f_key -iv $encrypted_d16b55db407f_iv
   -in ssh_config.tar.enc -out ssh_config.tar -d
 - tar xvf ssh_config.tar
 - rm ssh_config.tar
-- echo 'sudo apt-get -y update' | ssh -T -F ssh_config chrome-build1
-# install python
-- echo 'sudo apt-get -y install git python' | ssh -T -F ssh_config chrome-build1
-# install mscorefont
-- echo 'echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections && sudo apt-get install -y ttf-mscorefonts-installer' | ssh -T -F ssh_config chrome-build1
-# TODO - install docker
-# TODO - set path
-#    export PATH="$PATH:/path/to/depot_tools"
-# depot_tools
-- echo 'git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git; cd depot_tools; git pull' | ssh -T -F ssh_config buildbot@chrome-build1
 
-install:
-# https://chromium.googlesource.com/chromium/src/+/master/docs/linux_build_instructions.md#Install
-# Get the sources
-- echo 'mkdir -p ~/chromium; cd ~/chromium; fetch --no-history chromium' | ssh -T -F ssh_config buildbot@chrome-build1
-# Install build dependencies
-- echo 'cd ~/chromium/src; sudo ./build/install-build-deps.sh --no-prompt' | ssh -T -F ssh_config buildbot@chrome-build1
-# Reset, checkout master
-- travis_wait 100 echo 'cd ~/chromium/src; git reset --hard; git checkout master; git reset --hard; git rebase-update; gclient sync --with_branch_heads' | ssh -T -F ssh_config buildbot@chrome-build1
-# Get tags
-- travis_wait 100 echo 'cd ~/chromium/src; git fetch' | ssh -T -F ssh_config buildbot@chrome-build1
+script: $T $W ./travis.sh $S $C $H "$TRAVIS_BUILD_NUMBER.$TRAVIS_BUILD_ID"
