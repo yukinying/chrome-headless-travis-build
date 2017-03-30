@@ -30,6 +30,11 @@ env:
   - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=18
   - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=19
   - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=20
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=21
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=22
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=23
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=24
+  - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=25
   - N='docker'              S=11 C=ssh_config H=buildbot@chrome-build1
 before_install:
 - umask 0077
