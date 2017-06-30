@@ -9,4 +9,4 @@ git reset --hard && git checkout master && git reset --hard && git rebase-update
 git fetch --verbose && (git show-ref --tags | grep refs | cut -d/ -f3 | sort -rn | head -1 > target.txt) && cat target.txt
 export TARGET=`cat target.txt` && git checkout $TARGET && git reset --hard && gclient sync --jobs 16 && mkdir -p out/$TARGET && cp ~/args.gn out/$TARGET; gn gen out/$TARGET
 export TARGET=`cat target.txt` && timeout 45m ninja -C out/$TARGET headless_shell || true
-export TARGET=`cat target.txt` && cd out/$TARGET && mkdir -p bin && cp ~/Dockerfile *.so *.pak headless_shell bin && sudo docker build -t yukinying/chrome-headless:$TARGET -t yukinying/chrome-headless:latest bin && sudo docker push yukinying/chrome-headless:$TARGET && sudo docker push yukinying/chrome-headless:latest
+export TARGET=`cat target.txt` && cd out/$TARGET && mkdir -p bin && cp ~/Dockerfile *.pak headless_shell bin && sudo docker build -t yukinying/chrome-headless:$TARGET -t yukinying/chrome-headless:latest bin && sudo docker push yukinying/chrome-headless:$TARGET && sudo docker push yukinying/chrome-headless:latest
