@@ -41,6 +41,7 @@ env:
   - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=29
   - N='docker'              S=11 C=ssh_config H=buildbot@chrome-build1
   - N='release'             S=12 C=ssh_config H=buildbot@chrome-build1
+  - N='npm'                 S=13 C=ssh_config H=buildbot@chrome-build1
 before_install:
 - umask 0077
 - openssl aes-256-cbc -K $encrypted_d16b55db407f_key -iv $encrypted_d16b55db407f_iv

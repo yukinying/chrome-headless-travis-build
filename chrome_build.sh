@@ -11,3 +11,4 @@ export TARGET=`cat target.txt` && git checkout $TARGET && git reset --hard && gc
 export TARGET=`cat target.txt` && timeout 45m ninja -C out/$TARGET headless_shell || true
 export TARGET=`cat target.txt` && cd out/$TARGET && mkdir -p bin && cp ~/Dockerfile *.pak headless_shell bin && sudo docker build -t yukinying/chrome-headless:$TARGET -t yukinying/chrome-headless:latest bin && sudo docker run --init -it --rm --entrypoint="/chrome/headless_shell" --name headless yukinying/chrome-headless:$TARGET --no-sandbox --disable-gpu "https://www.google.com" && sudo docker push yukinying/chrome-headless:$TARGET && sudo docker push yukinying/chrome-headless:latest
 export TARGET=`cat target.txt` && cd out/$TARGET && ~/chrome-release-to-github.sh
+export TARGET=`cat target.txt` && cd out/$TARGET && ~/npm-publish.sh
