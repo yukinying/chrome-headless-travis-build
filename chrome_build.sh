@@ -6,7 +6,7 @@
 [ -f chrome.fetched ] || (mkdir -p ~/chromium && cd ~/chromium && fetch --no-history chromium)
 [ -f chrome.fetched ] || (cd ~/chromium/src && sudo ./build/install-build-deps.sh --no-prompt && touch chrome.fetched)
 git reset --hard && git checkout master && git reset --hard && git rebase-update --verbose && gclient sync -v -v -v --with_branch_heads --jobs 16
-git fetch --verbose && (git show-ref --tags | grep refs | cut -d/ -f3 | sort -rn | head -1 > target.txt) && cat target.txt
+git fetch --depth=100 --tags --verbose origin master && (git show-ref --tags | grep refs | cut -d/ -f3 | sort -rn | head -1 > target.txt) && cat target.txt
 export TARGET=`cat target.txt` && git checkout $TARGET && git reset --hard && gclient sync --jobs 16 && mkdir -p out/$TARGET && cp ~/args.gn out/$TARGET; gn gen out/$TARGET
 export TARGET=`cat target.txt` && timeout 45m ninja -C out/$TARGET headless_shell || true
 export TARGET=`cat target.txt` && cd out/$TARGET && mkdir -p bin && cp ~/Dockerfile *.pak headless_shell bin && sudo docker build -t yukinying/chrome-headless:$TARGET -t yukinying/chrome-headless:latest bin && sudo docker run --init -it --rm --entrypoint="/chrome/headless_shell" --name headless yukinying/chrome-headless:$TARGET --no-sandbox --disable-gpu "https://www.google.com" && sudo docker push yukinying/chrome-headless:$TARGET && sudo docker push yukinying/chrome-headless:latest
