@@ -7,7 +7,7 @@ env:
   # - N='install depot_tools' S=4 C=ssh_config H=buildbot@chrome-build1
   # - N='fetch chromium'      S=5 C=ssh_config H=buildbot@chrome-build1 T=travis_wait W=100
   # - N='install build deps'  S=6 C=ssh_config H=buildbot@chrome-build1
-  # - N='gclient sync'        S=7 C=ssh_config H=buildbot@chrome-build1 T=travis_wait W=100
+  - N='git ls-remote'       S=7 C=ssh_config H=buildbot@chrome-build1
   - N='git fetch'           S=8 C=ssh_config H=buildbot@chrome-build1
   - N='git checkout TARGET' S=9 C=ssh_config H=buildbot@chrome-build1
   - N='ninja'               S=10 C=ssh_config H=buildbot@chrome-build1 A=1
